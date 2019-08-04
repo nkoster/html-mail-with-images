@@ -39,5 +39,5 @@ for receiver in mailing:
         with open('/tmp/email', 'w') as f:
             f.write(str(msg))
             f.close()
-        os.system('cat /tmp/email | tail + 2 | sendmail -t')
+        os.system('cat /tmp/email | tail +2 | sendmail -t')
         print(receiver)
