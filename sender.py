@@ -1,10 +1,14 @@
 import os
+import sys
+import smtplib
+import dns.resolver
 import mimetypes
 from email.mime.base import MIMEBase
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.header import Header
 from email import encoders
+sender = "Info <info@patternsfestival.com>"
 mailing = open("./list1", "r")
 for receiver in mailing:
     receiver = receiver.replace("\n", "")
@@ -20,12 +24,11 @@ for receiver in mailing:
         mailbody = './mailbody.html'
         html = ''
         with open(mailbody, 'r') as f:
-            global html
             html = f.read()
         for image, cid in imageList:
             html = html.replace('images/' + image, 'cid:' + str(cid))
         msg = MIMEMultipart()
-        msg['From'] = 'Info <info@patternsfestival.nl>'
+        msg['From'] = sender
         msg['To'] = receiver
         msg['Subject'] = Header('Patterns Festival', 'utf-8').encode()
         msg.attach(MIMEText(html, 'html', 'utf-8'))
@@ -43,4 +46,5 @@ for receiver in mailing:
                 msg.attach(mime)
                 cid += 1
             f.close()
+
         print(msg)
